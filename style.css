@@ -1,0 +1,1389 @@
+/* =========================================================
+   SMART PRODUCTION MONITORING
+   FUTURISTIC INDUSTRIAL DASHBOARD
+   ========================================================= */
+
+
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(37, 99, 235, 0.14),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(124, 58, 237, 0.12),
+            transparent 28%
+        ),
+        #020b1a;
+
+    color: #e5edf8;
+
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   MAIN DASHBOARD
+   ========================================================= */
+
+.dashboard {
+    width: 100%;
+    max-width: 1600px;
+
+    margin: 0 auto;
+
+    padding: 30px 36px 60px;
+
+    display: block !important;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 24px 28px;
+
+    margin-bottom: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(10, 29, 58, 0.96),
+            rgba(5, 18, 38, 0.96)
+        );
+
+    border: 1px solid #203b61;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+
+/* subtle top glow */
+
+.header::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ec4899,
+            #8b5cf6,
+            #2563eb,
+            #10b981
+        );
+}
+
+
+.header h1 {
+    margin: 0;
+
+    font-size: 30px;
+
+    color: #f8fbff;
+
+    letter-spacing: 0.5px;
+}
+
+
+.header p {
+    margin: 8px 0 0;
+
+    color: #8ea6c3;
+
+    font-size: 14px;
+}
+
+
+.status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #dcecff;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    padding: 9px 14px;
+
+    background: rgba(16, 185, 129, 0.08);
+
+    border: 1px solid rgba(16, 185, 129, 0.35);
+
+    border-radius: 30px;
+}
+
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+
+    background: #22c55e;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 8px #22c55e,
+        0 0 18px rgba(34, 197, 94, 0.5);
+}
+
+
+/* =========================================================
+   TOP SUMMARY CARDS
+   ========================================================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 28px;
+}
+
+
+.card {
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(11, 32, 62, 0.97),
+            rgba(5, 20, 40, 0.97)
+        );
+
+    border: 1px solid #1e3a5f;
+
+    border-radius: 14px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+    overflow: hidden;
+}
+
+
+.card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
+
+    background: #2563eb;
+}
+
+
+.card-title {
+    display: block;
+
+    color: #829ab8;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
+}
+
+
+.card strong {
+    font-size: 30px;
+
+    color: #f8fbff;
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+   ========================================================= */
+
+.machine-section h2,
+.alerts-section h2,
+.performance-section h2,
+.chart-section h2 {
+    color: #f1f6ff;
+
+    font-size: 24px;
+
+    margin: 0 0 18px;
+
+    letter-spacing: 0.3px;
+}
+
+
+/* =========================================================
+   MACHINE GRID
+   ========================================================= */
+
+.machine-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 30px;
+}
+
+
+.machine-card {
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 31, 61, 0.98),
+            rgba(5, 20, 40, 0.98)
+        );
+
+    border: 1px solid #1e4168;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.machine-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #3276bd;
+}
+
+
+/* colored top line */
+
+.machine-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #06b6d4
+        );
+}
+
+
+.machine-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+
+.machine-header h3 {
+    margin: 0;
+
+    font-size: 20px;
+
+    color: #f8fbff;
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+.badge {
+    padding: 6px 11px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+.normal {
+    background: rgba(16, 185, 129, 0.14);
+
+    color: #34d399;
+
+    border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+
+.warning {
+    background: rgba(245, 158, 11, 0.14);
+
+    color: #fbbf24;
+
+    border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+
+.critical {
+    background: rgba(239, 68, 68, 0.14);
+
+    color: #f87171;
+
+    border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+
+/* =========================================================
+   SENSOR GRID
+   ========================================================= */
+
+.sensor-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+
+.sensor-grid div {
+    background: rgba(13, 35, 67, 0.8);
+
+    border: 1px solid #19385d;
+
+    padding: 13px;
+
+    border-radius: 10px;
+}
+
+
+.sensor-grid span {
+    display: block;
+
+    color: #7690ad;
+
+    font-size: 12px;
+
+    margin-bottom: 6px;
+}
+
+
+.sensor-grid strong {
+    font-size: 17px;
+
+    color: #eaf3ff;
+}
+
+
+/* =========================================================
+   MACHINE HEALTH
+   ========================================================= */
+
+.health-score {
+    margin-top: 12px;
+
+    padding: 13px;
+
+    background: rgba(13, 35, 67, 0.8);
+
+    border: 1px solid #19385d;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.health-score span {
+    color: #7e97b3;
+
+    font-size: 13px;
+}
+
+
+.health-score strong {
+    font-size: 18px;
+
+    color: #f3f8ff;
+}
+
+
+.health-status {
+    padding: 6px 9px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+.health-status.healthy {
+    background: rgba(16, 185, 129, 0.14);
+
+    color: #34d399;
+}
+
+
+.health-status.attention {
+    background: rgba(245, 158, 11, 0.14);
+
+    color: #fbbf24;
+}
+
+
+.health-status.high-risk {
+    background: rgba(239, 68, 68, 0.14);
+
+    color: #f87171;
+}
+
+
+/* =========================================================
+   ML ANOMALY
+   ========================================================= */
+
+.anomaly-status {
+    margin-top: 10px;
+
+    padding: 11px 13px;
+
+    background: rgba(13, 35, 67, 0.8);
+
+    border: 1px solid #19385d;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.anomaly-status > span {
+    color: #7e97b3;
+
+    font-size: 13px;
+}
+
+
+.anomaly-status strong {
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+}
+
+
+.anomaly-status strong.normal {
+    background: rgba(16, 185, 129, 0.14);
+
+    color: #34d399;
+}
+
+
+.anomaly-status strong.warning {
+    background: rgba(245,158,11,0.14);
+    color: #fbbf24;
+}
+
+.anomaly-status strong.critical {
+    background: rgba(239,68,68,0.14);
+    color: #f87171;
+}
+
+
+/* =========================================================
+   MAINTENANCE RECOMMENDATION
+   ========================================================= */
+
+.maintenance-status {
+    margin-top: 10px;
+
+    padding: 13px;
+
+    background: rgba(13, 35, 67, 0.8);
+
+    border: 1px solid #19385d;
+
+    border-radius: 10px;
+}
+
+
+.maintenance-status span {
+    display: block;
+
+    color: #7e97b3;
+
+    font-size: 13px;
+
+    margin-bottom: 6px;
+}
+
+
+.maintenance-status strong {
+    font-size: 13px;
+
+    color: #e8f1fc;
+}
+
+
+/* =========================================================
+   FAILURE RISK
+   ========================================================= */
+
+.failure-risk {
+    margin-top: 10px;
+
+    padding: 13px;
+
+    background: rgba(13, 35, 67, 0.8);
+
+    border: 1px solid #19385d;
+
+    border-radius: 10px;
+}
+
+
+.failure-risk > span {
+    display: block;
+
+    color: #7e97b3;
+
+    font-size: 13px;
+
+    margin-bottom: 8px;
+}
+
+
+.failure-risk-value {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+.failure-risk-value strong {
+    font-size: 20px;
+
+    color: #f5f9ff;
+}
+
+
+.failure-risk-status {
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+.failure-risk-status.low-risk {
+    background: rgba(16, 185, 129, 0.14);
+
+    color: #34d399;
+}
+
+
+.failure-risk-status.medium-risk {
+    background: rgba(245, 158, 11, 0.14);
+
+    color: #fbbf24;
+}
+
+
+.failure-risk-status.high-risk {
+    background: rgba(239, 68, 68, 0.14);
+
+    color: #f87171;
+}
+
+
+/* =========================================================
+   ACTIVE MAINTENANCE ALERTS
+   ========================================================= */
+
+.alerts-section {
+    margin-bottom: 30px;
+}
+
+
+.alerts-header {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+
+.alerts-header h2 {
+    margin: 0;
+}
+
+
+.alert-count {
+    background: rgba(239, 68, 68, 0.14);
+
+    color: #f87171;
+
+    border: 1px solid rgba(239, 68, 68, 0.3);
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+.alerts-list {
+    display: grid;
+
+    gap: 12px;
+}
+
+
+.alert-card {
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 31, 61, 0.98),
+            rgba(5, 20, 40, 0.98)
+        );
+
+    border: 1px solid #4b2631;
+
+    border-radius: 12px;
+
+    padding: 17px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.22);
+}
+
+
+.alert-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 3px;
+
+    background: #ef4444;
+}
+
+
+.alert-machine {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 12px;
+}
+
+
+.alert-machine h3 {
+    margin: 0;
+
+    color: #f7fbff;
+}
+
+
+.alert-details {
+    display: flex;
+
+    gap: 25px;
+
+    color: #8098b3;
+
+    font-size: 13px;
+
+    margin-bottom: 12px;
+}
+
+
+.alert-details strong {
+    color: #e7f0fb;
+}
+
+
+.alert-recommendation {
+    padding: 10px 12px;
+
+    background: rgba(13, 35, 67, 0.8);
+
+    border: 1px solid #19385d;
+
+    border-radius: 8px;
+
+    color: #dce9f8;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+.no-alerts {
+    background: rgba(16, 185, 129, 0.1);
+
+    border: 1px solid rgba(16, 185, 129, 0.3);
+
+    color: #34d399;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   PRODUCTION KPI
+   ========================================================= */
+
+.kpi-section {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr)) !important;
+
+    gap: 18px;
+
+    width: 100%;
+
+    margin-bottom: 28px;
+}
+
+
+.kpi-card {
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 31, 61, 0.98),
+            rgba(5, 20, 40, 0.98)
+        );
+
+    border: 1px solid #1e4168;
+
+    border-radius: 14px;
+
+    padding: 20px 23px;
+
+    min-height: 105px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+
+.kpi-card:nth-child(1)::before {
+    background: #2563eb;
+}
+
+
+.kpi-card:nth-child(2)::before {
+    background: #f59e0b;
+}
+
+
+.kpi-card:nth-child(3)::before {
+    background: #10b981;
+}
+
+
+.kpi-card::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 3px;
+
+    border-radius: 14px 0 0 14px;
+}
+
+
+.kpi-title {
+    color: #8199b5;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+
+.kpi-card strong {
+    color: #f7fbff;
+
+    font-size: 31px;
+}
+
+
+.kpi-unit {
+    color: #718aa7;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RISK SUMMARY
+   ========================================================= */
+
+.risk-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 30px;
+}
+
+
+.risk-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 31, 61, 0.98),
+            rgba(5, 20, 40, 0.98)
+        );
+
+    border: 1px solid #1e4168;
+
+    border-radius: 14px;
+
+    padding: 21px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.24);
+}
+
+
+.risk-title {
+    color: #8199b5;
+
+    font-size: 14px;
+}
+
+
+.risk-card strong {
+    color: #f7fbff;
+
+    font-size: 30px;
+}
+
+
+.low-risk-card {
+    border-left: 4px solid #22c55e;
+}
+
+
+.medium-risk-card {
+    border-left: 4px solid #f59e0b;
+}
+
+
+.high-risk-card {
+    border-left: 4px solid #ef4444;
+}
+
+
+/* =========================================================
+   PERFORMANCE SUMMARY
+   ========================================================= */
+
+.performance-section {
+    display: block !important;
+
+    width: 100%;
+
+    margin-bottom: 30px;
+}
+
+
+.performance-table-wrapper {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 31, 61, 0.98),
+            rgba(5, 20, 40, 0.98)
+        );
+
+    border: 1px solid #1e4168;
+
+    border-radius: 14px;
+
+    padding: 16px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25);
+
+    overflow-x: auto;
+}
+
+
+.performance-table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+
+.performance-table th {
+    text-align: left;
+
+    padding: 14px;
+
+    background: rgba(17, 45, 82, 0.8);
+
+    color: #91a9c4;
+
+    font-size: 13px;
+
+    border-bottom: 1px solid #24466e;
+}
+
+
+.performance-table td {
+    padding: 15px 14px;
+
+    color: #d9e7f6;
+
+    border-bottom: 1px solid #183655;
+}
+
+
+.performance-table tr:last-child td {
+    border-bottom: none;
+}
+
+
+.performance-table td strong {
+    color: #f5f9ff;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   CHART SECTIONS
+   ========================================================= */
+
+.chart-section {
+    display: block !important;
+
+    width: 100%;
+
+    margin-bottom: 28px;
+}
+
+
+.chart-controls {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 12px;
+}
+
+
+.chart-controls label {
+    color: #8ba4c0;
+
+    font-size: 13px;
+}
+
+
+.chart-controls select {
+    background: #0a2342;
+
+    color: #eaf3ff;
+
+    border: 1px solid #315477;
+
+    border-radius: 7px;
+
+    padding: 7px 11px;
+
+    font-size: 13px;
+
+    outline: none;
+}
+
+
+.chart-controls select:focus {
+    border-color: #3b82f6;
+
+    box-shadow:
+        0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+
+.chart-card {
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10, 31, 61, 0.98),
+            rgba(5, 20, 40, 0.98)
+        );
+
+    border: 1px solid #1e4168;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    height: 360px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+
+.chart-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #06b6d4
+        );
+
+    border-radius: 14px 14px 0 0;
+}
+
+
+.chart-card canvas {
+    width: 100% !important;
+
+    height: 100% !important;
+}
+
+
+/* =========================================================
+   CHART TEXT / DARK MODE OVERRIDES
+   ========================================================= */
+
+canvas {
+    color: #a9bdd4;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 9px;
+
+    height: 9px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: #020b1a;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: #1f4168;
+
+    border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: #315f8d;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .machine-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .cards {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .dashboard {
+        padding: 22px;
+    }
+
+    .kpi-section {
+        grid-template-columns:
+            1fr !important;
+    }
+
+    .risk-summary {
+        grid-template-columns:
+            1fr;
+    }
+
+    .machine-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .dashboard {
+        padding: 15px;
+    }
+
+    .header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .cards {
+        grid-template-columns:
+            1fr;
+    }
+
+    .sensor-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .chart-card {
+        height: 300px;
+    }
+
+    .alert-details {
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+}
+
+/* =========================================================
+   ML MODEL INSIGHTS
+   ========================================================= */
+
+.ml-insights {
+    margin-bottom: 30px;
+}
+
+.ml-insights-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.ml-insights-header h2 {
+    margin: 0;
+    color: #f1f6ff;
+    font-size: 24px;
+}
+
+.ml-insights-header span {
+    color: #8199b5;
+    font-size: 13px;
+}
+
+.ml-insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.ml-insight-card {
+    position: relative;
+    background: linear-gradient(
+        145deg,
+        rgba(10,31,61,0.98),
+        rgba(5,20,40,0.98)
+    );
+
+    border: 1px solid #1e4168;
+    border-radius: 14px;
+    padding: 22px;
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.03);
+
+    overflow: hidden;
+}
+
+.ml-insight-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,#2563eb,#8b5cf6);
+}
+
+.ml-insight-card span {
+    display: block;
+    color: #8199b5;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.ml-insight-card strong {
+    display: block;
+    color: #f7fbff;
+    font-size: 26px;
+    margin-bottom: 7px;
+}
+
+.ml-insight-card small {
+    color: #718aa7;
+    font-size: 12px;
+}

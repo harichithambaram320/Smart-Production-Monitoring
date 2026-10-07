@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Smart Production Monitoring</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- Header -->
+        <header class="header">
+
+            <div>
+                <h1>Smart Production Monitoring</h1>
+                <p>Production Line Overview</p>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                System Online
+            </div>
+
+        </header>
+
+
+        <!-- Summary Cards -->
+        <section class="cards">
+
+            <div class="card">
+                <span class="card-title">Total Machines</span>
+                <strong>{{ total_machines }}</strong>
+            </div>
+
+            <div class="card">
+                <span class="card-title">Normal</span>
+                <strong>{{ normal_count }}</strong>
+            </div>
+
+            <div class="card">
+                <span class="card-title">Warning</span>
+                <strong>{{ warning_count }}</strong>
+            </div>
+
+            <div class="card">
+                <span class="card-title">Critical</span>
+                <strong>{{ critical_count }}</strong>
+            </div>
+
+        </section>
+
+        <section class="alerts-section">
+
+    <div class="alerts-header">
+
+        <h2>Active Maintenance Alerts</h2>
+
+        <span class="alert-count">
+            {{ active_alerts | length }}
+        </span>
+
+    </div>
+
+
+    {% if active_alerts %}
+
+        <div class="alerts-list">
+
+            {% for alert in active_alerts %}
+
+            <div class="alert-card">
+
+                <div class="alert-machine">
+
+                    <h3>{{ alert.machine }}</h3>
+
+                    <span class="badge {{ alert.health_status.lower().replace(' ', '-') }}">
+                        {{ alert.health_status }}
+                    </span>
+
+                </div>
+
+
+                <div class="alert-details">
+
+                    <span>
+                        Health Score:
+                        <strong>{{ alert.health_score }} / 100</strong>
+                    </span>
+
+                    <span>
+                        ML Detection:
+                        <strong>{{ alert.anomaly_status }}</strong>
+                    </span>
+
+                </div>
+
+
+                <div class="alert-recommendation">
+
+                    {{ alert.recommendation }}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="no-alerts">
+
+            ✓ No active maintenance alerts
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+        <!-- Machine Status -->
+        <section class="machine-section">
+
+            <h2>Machine Status</h2>
+
+            <div class="machine-grid">
+
+                {% for machine in machines %}
+
+                <div class="machine-card">
+
+                    <div class="machine-header">
+
+                        <h3>{{ machine.machine }}</h3>
+
+                        <span class="badge {{ machine.machine_condition.lower() }}">
+                            {{ machine.machine_condition }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="sensor-grid">
+
+                        <div>
+                            <span>Temperature</span>
+                            <strong>{{ machine.temperature }}°C</strong>
+                        </div>
+
+                        <div>
+                            <span>Vibration</span>
+                            <strong>{{ machine.vibration }} mm/s</strong>
+                        </div>
+
+                        <div>
+                            <span>Pressure</span>
+                            <strong>{{ machine.pressure }} bar</strong>
+                        </div>
+
+                        <div>
+                            <span>Errors</span>
+                            <strong>{{ machine.error_count }}</strong>
+                        </div>
+
+                    </div>
+                    <div class="health-score">
+
+    <div>
+        <span>Machine Health</span>
+        <strong>{{ machine.health_score }} / 100</strong>
+    </div>
+
+    <span class="health-status {{ machine.health_status.lower().replace(' ', '-') }}">
+        {{ machine.health_status }}
+    </span>
+
+</div>
+
+<div class="anomaly-status">
+
+    <span>ML Anomaly Detection</span>
+
+<strong class="{{ machine.anomaly_status.lower() }}">
+    {{ machine.anomaly_status }}
+</strong>
+
+</div>
+
+<div class="anomaly-status">
+
+    <span>Predictive Maintenance</span>
+
+    <strong class="{{ machine.predicted_condition.lower() }}">
+        {{ machine.predicted_condition }}
+    </strong>
+
+</div>
+
+<div class="maintenance-status">
+
+    <span>Maintenance Recommendation</span>
+
+    <strong>
+        {{ machine.maintenance_recommendation }}
+    </strong>
+
+</div>
+
+<div class="failure-risk">
+
+    <span>Failure Risk</span>
+
+    <div class="failure-risk-value">
+
+        <strong>
+            {{ machine.failure_risk }}%
+        </strong>
+
+        <span class="failure-risk-status {{ machine.failure_risk_status.lower().replace(' ', '-') }}">
+            {{ machine.failure_risk_status }}
+        </span>
+
+    </div>
+
+</div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+                <!-- Production KPIs -->
+
+        <section class="kpi-section">
+
+            <div class="kpi-card">
+
+                <span class="kpi-title">
+                    Total Production Output
+                </span>
+
+                <strong>
+                    {{ total_production }}
+                </strong>
+
+                <span class="kpi-unit">
+                    units
+                </span>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <span class="kpi-title">
+                    Total Errors
+                </span>
+
+                <strong>
+                    {{ total_errors }}
+                </strong>
+
+                <span class="kpi-unit">
+                    errors
+                </span>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <span class="kpi-title">
+                    Average Machine Health
+                </span>
+
+                <strong>
+                    {{ average_health }}
+                </strong>
+
+                <span class="kpi-unit">
+                    / 100
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- Failure Risk Summary -->
+
+<section class="risk-summary">
+
+    <div class="risk-card low-risk-card">
+
+        <span class="risk-title">
+            Low Risk Machines
+        </span>
+
+        <strong>
+            {{ low_risk_count }}
+        </strong>
+
+    </div>
+
+
+    <div class="risk-card medium-risk-card">
+
+        <span class="risk-title">
+            Medium Risk Machines
+        </span>
+
+        <strong>
+            {{ medium_risk_count }}
+        </strong>
+
+    </div>
+
+
+    <div class="risk-card high-risk-card">
+
+        <span class="risk-title">
+            High Risk Machines
+        </span>
+
+        <strong>
+            {{ high_risk_count }}
+        </strong>
+
+    </div>
+
+</section>
+
+<!-- ML Insights -->
+
+<section class="ml-insights">
+
+    <div class="ml-insights-header">
+        <h2>ML Model Insights</h2>
+        <span>Predictive Maintenance Model</span>
+    </div>
+
+    <div class="ml-insights-grid">
+
+        <div class="ml-insight-card">
+            <span>Model Accuracy</span>
+            <strong>{{ "%.2f"|format(model_accuracy * 100) }}%</strong>
+            <small>Random Forest Classifier</small>
+        </div>
+
+        <div class="ml-insight-card">
+            <span>Top Feature</span>
+            <strong>{{ top_feature.replace("_", " ").title() }}</strong>
+<small>Feature Importance: {{ "%.2f"|format(top_feature_importance * 100) }}%</small>
+        </div>
+
+        <div class="ml-insight-card">
+            <span>Prediction Classes</span>
+            <strong>3</strong>
+            <small>Normal • Warning • Critical</small>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+       
+        <section class="performance-section">
+
+    <h2>Machine Performance Summary</h2>
+
+    <div class="performance-table-wrapper">
+
+        <table class="performance-table">
+
+            <thead>
+                <tr>
+                    <th>Machine</th>
+                    <th>Production</th>
+                    <th>Errors</th>
+                    <th>Health Score</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for machine in performance_summary %}
+
+                <tr>
+
+                    <td>
+                        <strong>{{ machine.machine }}</strong>
+                    </td>
+
+                    <td>
+                        {{ machine.production }}
+                    </td>
+
+                    <td>
+                        {{ machine.errors }}
+                    </td>
+
+                    <td>
+                        {{ machine.health_score }} / 100
+                    </td>
+
+                    <td>
+
+                        <span class="badge {{ machine.health_status.lower().replace(' ', '-') }}">
+                            {{ machine.health_status }}
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+        <!-- Temperature Chart -->
+        <section class="chart-section">
+
+    <h2>Temperature Trend</h2>
+
+    <div class="chart-controls">
+
+        <label for="machineSelect">
+            Select Machine:
+        </label>
+
+        <select id="machineSelect">
+
+            <option value="Machine-01">Machine-01</option>
+            <option value="Machine-02">Machine-02</option>
+            <option value="Machine-03">Machine-03</option>
+            <option value="Machine-04">Machine-04</option>
+            <option value="Machine-05">Machine-05</option>
+
+        </select>
+
+    </div>
+
+    <div class="chart-card">
+
+        <canvas id="temperatureChart"></canvas>
+
+    </div>
+
+</section>
+
+<section class="chart-section">
+
+    <h2>Vibration Trend</h2>
+
+    <div class="chart-card">
+
+        <canvas id="vibrationChart"></canvas>
+
+    </div>
+
+</section>
+
+<section class="chart-section">
+    <h2>Production Output Trend</h2>
+
+    <div class="chart-card">
+        <canvas id="productionChart"></canvas>
+    </div>
+</section>
+
+<section class="chart-section">
+    <h2>Error Count Trend</h2>
+
+    <div class="chart-card">
+        <canvas id="errorChart"></canvas>
+    </div>
+</section>
+
+    </div>
+
+
+    
+    <!-- Chart Data -->
+<script id="chart-data" type="application/json">
+    {{ chart_data | tojson }}
+</script>
+
+<script>
+
+    const chartData = JSON.parse(
+        document.getElementById("chart-data").textContent
+    );
+
+    const machineSelect =
+        document.getElementById("machineSelect");
+
+    const temperatureCtx =
+        document.getElementById("temperatureChart");
+
+    const vibrationCtx =
+        document.getElementById("vibrationChart");
+
+    let temperatureChart;
+    let vibrationChart;
+    let productionChart;
+    let errorChart;
+
+
+    function updateChart() {
+
+        const selectedMachine =
+            machineSelect.value;
+
+
+        const machineData =
+            chartData.filter(
+                row => row.machine === selectedMachine
+            );
+
+
+        const labels =
+            machineData.map(
+                row => row.timestamp
+            );
+
+
+        const temperatures =
+            machineData.map(
+                row => row.temperature
+            );
+
+
+        const vibrations =
+            machineData.map(
+                row => row.vibration
+            );
+
+            const production =
+    machineData.map(
+        row => row.production_count
+    );
+
+    const errors =
+    machineData.map(
+        row => row.error_count
+    );
+
+
+        if (temperatureChart) {
+
+            temperatureChart.destroy();
+
+        }
+
+
+        if (vibrationChart) {
+
+            vibrationChart.destroy();
+
+        }
+
+        if (productionChart) {
+
+    productionChart.destroy();
+
+}
+
+if (errorChart) {
+
+    errorChart.destroy();
+
+}
+
+
+        temperatureChart = new Chart(
+            temperatureCtx,
+            {
+                type: "line",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [{
+                        label:
+                            selectedMachine +
+                            " Temperature (°C)",
+
+                        data: temperatures,
+
+                        tension: 0.3,
+
+                        fill: false
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Time"
+                            }
+                        },
+
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Temperature (°C)"
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        vibrationChart = new Chart(
+            vibrationCtx,
+            {
+                type: "line",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [{
+
+                        label:
+                            selectedMachine +
+                            " Vibration (mm/s)",
+
+                        data: vibrations,
+
+                        tension: 0.3,
+
+                        fill: false
+
+                    }]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    scales: {
+
+                        x: {
+                            title: {
+                                display: true,
+                                text: "Time"
+                            }
+                        },
+
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Vibration (mm/s)"
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+        const productionCtx =
+    document.getElementById("productionChart");
+
+productionChart = new Chart(
+    productionCtx,
+    {
+        type: "line",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [{
+
+                label:
+                    selectedMachine +
+                    " Production Output",
+
+                data: production,
+
+                tension: 0.3,
+
+                fill: false
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                x: {
+                    title: {
+                        display: true,
+                        text: "Time"
+                    }
+                },
+
+                y: {
+                    title: {
+                        display: true,
+                        text: "Production Count"
+                    }
+                }
+
+            }
+
+        }
+
+    }
+);
+
+const errorCtx =
+    document.getElementById("errorChart");
+
+errorChart = new Chart(
+    errorCtx,
+    {
+        type: "line",
+
+        data: {
+
+            labels: labels,
+
+            datasets: [{
+
+                label:
+                    selectedMachine +
+                    " Error Count",
+
+                data: errors,
+
+                tension: 0.3,
+
+                fill: false
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                x: {
+                    title: {
+                        display: true,
+                        text: "Time"
+                    }
+                },
+
+                y: {
+                    title: {
+                        display: true,
+                        text: "Error Count"
+                    }
+                }
+
+            }
+
+        }
+
+    }
+);
+
+    }
+
+
+    machineSelect.addEventListener(
+        "change",
+        updateChart
+    );
+
+
+    updateChart();
+
+
+    setInterval(function () {
+
+        location.reload();
+
+    }, 60000);
+
+</script>
+
+<script>
+    document.querySelectorAll(".risk-bar-fill").forEach(function (bar) {
+        const risk = bar.dataset.risk;
+        bar.style.width = risk + "%";
+    });
+</script>
+
+</body>
